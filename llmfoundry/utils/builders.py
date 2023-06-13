@@ -19,7 +19,7 @@ from composer.utils import dist
 from omegaconf import DictConfig
 from omegaconf import OmegaConf as om
 from transformers import (AutoTokenizer, PreTrainedTokenizer,
-                          PreTrainedTokenizerFast)
+                          PreTrainedTokenizerFast, EarlyStoppingCallback)
 
 from llmfoundry.callbacks import (FDiffMetrics, Generate, GlobalLRScaling,
                                   LayerFreezing, MonolithicCheckpointSaver,
@@ -57,6 +57,8 @@ def build_callback(name, kwargs):
         return MonolithicCheckpointSaver(**kwargs)
     elif name == 'scheduled_gc':
         return ScheduledGarbageCollector(**kwargs)
+    elif name == 'early_stopping':
+        return EarlyStoppingCallback(**kwargs)
     else:
         raise ValueError(f'Not sure how to build callback: {name}')
 
