@@ -40,7 +40,8 @@ def get_hf_config_from_composer_state_dict(
         return hf_config_dict.get(k,None)
 
     def safe_del(k):
-        del hf_config_dict[k] if k in hf_config_dict
+        if k in hf_config_dict:
+            del hf_config_dict[k]
 
     # backwards compatibility changes
     if hf_config_dict['model_type'] == 'mosaic_gpt':
