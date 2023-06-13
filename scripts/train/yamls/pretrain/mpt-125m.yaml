@@ -79,8 +79,8 @@ global_train_batch_size: 256
 # System
 seed: ${global_seed}
 device_eval_batch_size: 16
-device_train_microbatch_size: 16
-# device_train_microbatch_size: auto
+# device_train_microbatch_size: 16
+device_train_microbatch_size: auto
 precision: amp_bf16
 
 # FSDP

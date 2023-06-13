@@ -143,3 +143,6 @@ dmypy.json
 
 # macOS
 .DS_Store
+
+# IntelliJ/Pycharm
+.idea/
