@@ -30,7 +30,7 @@ format. We'll structure prompts and responses like this:
     'response': <correct choice text>
 }
 """
-
+import json
 from typing import Dict
 
 
@@ -43,4 +43,14 @@ def multiple_choice(inp: Dict[str, str]) -> Dict[str, str]:
     return {
         'prompt': PROMPT_FORMAT.format(query=query, options=options),
         'response': inp['choices'][inp['gold']],
+    }
+
+
+def mbql(inp: Dict[str, str]) -> Dict[str, str]:
+    desc = inp['description']
+    ctx = inp['context']
+    query = inp['query']
+    return {
+        'prompt': json.dumps({'user_prompt': desc, 'context': ctx}),
+        'response': query
     }
