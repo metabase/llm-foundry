@@ -1,12 +1,9 @@
-# Copyright 2022 MosaicML LLM Foundry authors
-# SPDX-License-Identifier: Apache-2.0
+FROM mosaicml/llm-foundry:2.0.1_cu118-latest
 
-ARG BASE_IMAGE
-FROM $BASE_IMAGE
+RUN git clone https://github.com/metabase/llm-foundry.git
 
+RUN pip install --no-cache-dir "./llm-foundry[gpu]"
 
-# Install and uninstall foundry to cache foundry requirements
-RUN git clone -b main https://github.com/mosaicml/llm-foundry.git && \
-    pip install --no-cache-dir "./llm-foundry[gpu]" && \
-    pip uninstall -y llm-foundry && \
-    rm -rf llm-foundry
+RUN apt-get update && apt-get install vim -y
+
+RUN rm -rf llm-foundry
