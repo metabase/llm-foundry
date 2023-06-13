@@ -74,37 +74,35 @@ def get_hf_config_from_composer_state_dict(
     if 'init_config' not in hf_config_dict:
         init_config = {}
 
-        init_config['name'] = hf_config_dict['param_init_fn']
-        del hf_config_dict['param_init_fn']
-        init_config['fan_mode'] = hf_config_dict['fan_mode']
-        del hf_config_dict['fan_mode']
-        init_config['init_nonlinearity'] = hf_config_dict['init_nonlinearity']
-        del hf_config_dict['init_nonlinearity']
-        init_config['init_gain'] = hf_config_dict['init_gain']
-        del hf_config_dict['init_gain']
-        init_config['init_std'] = hf_config_dict['init_std']
-        del hf_config_dict['init_std']
-        init_config['init_div_is_residual'] = hf_config_dict[
-            'init_div_is_residual']
-        del hf_config_dict['init_div_is_residual']
-        init_config['emb_init_std'] = hf_config_dict['emb_init_std']
-        del hf_config_dict['emb_init_std']
-        init_config['emb_init_uniform_lim'] = hf_config_dict[
-            'emb_init_uniform_lim']
-        del hf_config_dict['emb_init_uniform_lim']
+        init_config['name'] = rhs('param_init_fn')
+        safe_del('param_init_fn')
+        init_config['fan_mode'] = rhs('fan_mode')
+        safe_del('fan_mode')
+        init_config['init_nonlinearity'] = rhs('init_nonlinearity')
+        safe_del('init_nonlinearity')
+        init_config['init_gain'] = rhs('init_gain')
+        safe_del('init_gain')
+        init_config['init_std'] = rhs('init_std')
+        safe_del('init_std')
+        init_config['init_div_is_residual'] = rhs('init_div_is_residual')
+        safe_del('init_div_is_residual')
+        init_config['emb_init_std'] = rhs('emb_init_std')
+        safe_del('emb_init_std')
+        init_config['emb_init_uniform_lim'] = rhs('emb_init_uniform_lim')
+        safe_del('emb_init_uniform_lim')
 
         hf_config_dict['init_config'] = init_config
 
     if 'mlp_ratio' in hf_config_dict:
-        hf_config_dict['expansion_ratio'] = hf_config_dict['mlp_ratio']
-        del hf_config_dict['mlp_ratio']
+        hf_config_dict['expansion_ratio'] = rhs('mlp_ratio')
+        safe_del('mlp_ratio')
 
     if 'low_precision_layernorm' in hf_config_dict:
         if hf_config_dict['low_precision_layernorm']:
             hf_config_dict['norm_type'] = 'low_precision_layernorm'
         else:
             hf_config_dict['norm_type'] = 'layernorm'
-        del hf_config_dict['low_precision_layernorm']
+        safe_del('low_precision_layernorm')
 
     return AutoConfig.for_model(**hf_config_dict)
 
