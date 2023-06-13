@@ -388,7 +388,7 @@ def main(args: Namespace) -> None:
     print(f'Loading model from {local_folder_path}')
     config = MPTConfig.from_pretrained(local_folder_path)
     # You have to edit the config this way, because attn_config is a nested dictionary
-    config.attn_config['attn_impl'] = 'triton'
+    config.attn_config['attn_impl'] = 'torch'
     loaded_hf_model = MPTForCausalLM.from_pretrained(local_folder_path,
                                                      config=config,
                                                      torch_dtype=dtype)
