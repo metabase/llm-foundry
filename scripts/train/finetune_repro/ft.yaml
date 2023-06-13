@@ -10,8 +10,8 @@ model:
   pretrained_model_name_or_path: distilgpt2
   pretrained: true  # false: only use the architecture; true: initialize with pretrained weights
   # See if this buys us anything
-  #  attn_config:
-  #    attn_impl: triton
+  attn_config:
+    attn_impl: triton
 
 # Tokenizer
 tokenizer:
@@ -61,7 +61,7 @@ algorithms:
     clipping_type: norm
     clipping_threshold: 1.0
 
-max_duration: 10ep
+max_duration: 2ep
 eval_interval: 1
 eval_first: false
 eval_subset_num_batches: -1
