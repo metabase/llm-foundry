@@ -42,7 +42,7 @@ def get_hf_config_from_composer_state_dict(
         attn_config['attn_pdrop'] = hf_config_dict['attn_pdrop']
         del hf_config_dict['attn_pdrop']
         attn_config['attn_impl'] = 'triton' # hf_config_dict['attn_impl']
-        del hf_config_dict['attn_impl']
+        # del hf_config_dict['attn_impl']
         attn_config['qk_ln'] = hf_config_dict['attn_qk_ln']
         del hf_config_dict['attn_qk_ln']
         attn_config['clip_qkv'] = hf_config_dict['attn_clip_qkv']
