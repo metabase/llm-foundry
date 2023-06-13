@@ -21,7 +21,6 @@ from transformers import (AutoConfig, AutoTokenizer, PretrainedConfig,
 
 from llmfoundry import MPTConfig, MPTForCausalLM
 
-
 # TODO: maybe move this functionality to Composer
 def get_hf_config_from_composer_state_dict(
         state_dict: Dict[str, Any]) -> PretrainedConfig:
@@ -37,6 +36,12 @@ def get_hf_config_from_composer_state_dict(
     pprint.pprint(hf_config_dict, indent=4)
     print('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
 
+    def rhs(k):
+        return hf_config_dict.get(k,None)
+
+    def safe_del(k):
+        del hf_config_dict[k] if k in hf_config_dict
+
     # backwards compatibility changes
     if hf_config_dict['model_type'] == 'mosaic_gpt':
         hf_config_dict['model_type'] = 'mpt'
@@ -44,25 +49,24 @@ def get_hf_config_from_composer_state_dict(
     if 'attn_config' not in hf_config_dict:
         attn_config = {}
         attn_config['attn_type'] = 'multihead_attention'
-        attn_config['attn_pdrop'] = hf_config_dict['attn_pdrop']
-        del hf_config_dict['attn_pdrop']
-        attn_config['attn_impl'] = 'triton' # hf_config_dict['attn_impl']
-        # del hf_config_dict['attn_impl']
-        attn_config['qk_ln'] = hf_config_dict['attn_qk_ln']
-        del hf_config_dict['attn_qk_ln']
-        attn_config['clip_qkv'] = hf_config_dict['attn_clip_qkv']
-        del hf_config_dict['attn_clip_qkv']
-        attn_config['softmax_scale'] = hf_config_dict['softmax_scale']
-        del hf_config_dict['softmax_scale']
-        attn_config['prefix_lm'] = hf_config_dict['prefix_lm']
-        del hf_config_dict['prefix_lm']
-        attn_config['attn_uses_sequence_id'] = hf_config_dict[
-            'attn_uses_sequence_id']
-        del hf_config_dict['attn_uses_sequence_id']
-        attn_config['alibi'] = hf_config_dict['alibi']
-        del hf_config_dict['alibi']
-        attn_config['alibi_bias_max'] = hf_config_dict['alibi_bias_max']
-        del hf_config_dict['alibi_bias_max']
+        attn_config['attn_pdrop'] = rhs('attn_pdrop')
+        safe_del('attn_pdrop')
+        attn_config['attn_impl'] = rhs('attn_impl')
+        safe_del('attn_impl')
+        attn_config['qk_ln'] = rhs('attn_qk_ln')
+        safe_del('attn_qk_ln')
+        attn_config['clip_qkv'] = rhs('attn_clip_qkv')
+        safe_del('attn_clip_qkv')
+        attn_config['softmax_scale'] = rhs('softmax_scale')
+        safe_del('softmax_scale')
+        attn_config['prefix_lm'] = rhs('prefix_lm')
+        safe_del('prefix_lm')
+        attn_config['attn_uses_sequence_id'] = rhs('attn_uses_sequence_id')
+        safe_del('attn_uses_sequence_id')
+        attn_config['alibi'] = rhs('alibi')
+        safe_del('alibi')
+        attn_config['alibi_bias_max'] = rhs('alibi_bias_max')
+        safe_del('alibi_bias_max')
 
         hf_config_dict['attn_config'] = attn_config
 
