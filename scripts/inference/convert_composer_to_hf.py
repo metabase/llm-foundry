@@ -9,6 +9,7 @@ import tempfile
 from argparse import ArgumentParser, Namespace
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Union
+import pprint
 
 import sentencepiece as spm
 import torch
@@ -31,6 +32,10 @@ def get_hf_config_from_composer_state_dict(
     hf_config_dict['init_device'] = 'cpu'
 
     AutoConfig.register('mpt', MPTConfig)
+
+    print('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
+    pprint.pprint(hf_config_dict, indent=4)
+    print('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
 
     # backwards compatibility changes
     if hf_config_dict['model_type'] == 'mosaic_gpt':
