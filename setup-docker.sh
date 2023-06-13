@@ -6,4 +6,4 @@ docker run \
 --gpus all \
 --name foo \
 mosaicml/llm-foundry:2.0.1_cu118-latest \
-pip install -e ".[gpu]"
+pip3.10 install --upgrade pip && pip install -e ".[gpu]"
