@@ -58,9 +58,6 @@ def build_callback(name, kwargs):
     elif name == 'scheduled_gc':
         return ScheduledGarbageCollector(**kwargs)
     elif name == 'early_stopping':
-        print('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
-        print(kwargs)
-        print('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
         return EarlyStoppingCallback(**kwargs)
     else:
         raise ValueError(f'Not sure how to build callback: {name}')
