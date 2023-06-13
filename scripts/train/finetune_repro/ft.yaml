@@ -87,6 +87,8 @@ callbacks:
   lr_monitor: {}
   memory_monitor: {}
   runtime_estimator: {}
+  early_stopping:
+    early_stopping_patience: 3
 
 # loggers:
 #   wandb: {}
