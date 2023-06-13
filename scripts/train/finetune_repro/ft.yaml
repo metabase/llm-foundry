@@ -7,7 +7,7 @@ run_name: # If left blank, will be read from env var $RUN_NAME
 # Model
 model:
   name: hf_causal_lm
-  pretrained_model_name_or_path: distilgpt2
+  pretrained_model_name_or_path: mpt_causal_lm # distilgpt2
   pretrained: true  # false: only use the architecture; true: initialize with pretrained weights
   # See if this buys us anything
   attn_config:
@@ -94,9 +94,9 @@ callbacks:
 #   wandb: {}
 
 # Checkpoint to local filesystem or remote object store
-save_interval: 500ba
-save_num_checkpoints_to_keep: 1  # Important, this cleans up checkpoints saved to DISK
-save_folder: ./{run_name}/checkpoints
+# save_interval: 500ba
+# save_num_checkpoints_to_keep: 1  # Important, this cleans up checkpoints saved to DISK
+# save_folder: ./{run_name}/checkpoints
 # save_folder: s3://my-bucket/my-folder/{run_name}/checkpoints
 
 # Load from local filesystem or remote object store
