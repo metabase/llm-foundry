@@ -1,8 +1,4 @@
-# Edited to work on V100 series GPUs (E.g p3.2xlarge). Doesn't really seem to work, though :(
-
-data_local: ./my-copy-c4
-data_remote: # If blank, files must be present in data_local
-max_seq_len: 2048
+max_seq_len: 512
 global_seed: 17
 
 # Run Name
@@ -10,46 +6,36 @@ run_name: # If left blank, will be read from env var $RUN_NAME
 
 # Model
 model:
-  name: mpt_causal_lm
-  init_device: meta
-  d_model: 768
-  n_heads: 12
-  n_layers: 12
-  expansion_ratio: 4
-  max_seq_len: ${max_seq_len}
-  vocab_size: 50368
-  attn_config:
-    attn_impl: triton
+  name: hf_causal_lm
+  pretrained_model_name_or_path: distilgpt2
+  pretrained: true  # false: only use the architecture; true: initialize with pretrained weights
 
 # Tokenizer
 tokenizer:
-  name: EleutherAI/gpt-neox-20b
+  name: gpt2
   kwargs:
     model_max_length: ${max_seq_len}
 
 # Dataloaders
 train_loader:
-  name: text
+  name: finetuning
   dataset:
-    local: ${data_local}
-    remote: ${data_remote}
+    ############
+    hf_name: json
+    hf_kwargs:
+      # Note: absolute paths for data_dir are more reliable;
+      # relative paths will be interpreted relative to whatever your
+      # working directory is when you run `train.py`
+      data_dir: finetune_example
+    # Note: `scripts/train` will be the working directory when resolving
+    # the preprocessing_fn import path
+    preprocessing_fn: finetune_example.preprocessing:multiple_choice
     split: train
+    ############
     shuffle: true
     max_seq_len: ${max_seq_len}
-    shuffle_seed: ${global_seed}
+    decoder_only_format: true
   drop_last: true
-  num_workers: 8
-
-eval_loader:
-  name: text
-  dataset:
-    local: ${data_local}
-    remote: ${data_remote}
-    split: val
-    shuffle: false
-    max_seq_len: ${max_seq_len}
-    shuffle_seed: ${global_seed}
-  drop_last: false
   num_workers: 8
 
 # Optimization
@@ -72,28 +58,18 @@ algorithms:
     clipping_type: norm
     clipping_threshold: 1.0
 
-max_duration: 4800ba # ~ 2.5B tokens
-eval_interval: 500ba
+max_duration: 1ep
+eval_interval: 1
 eval_first: false
 eval_subset_num_batches: -1
-global_train_batch_size: 256
+global_train_batch_size: 8
 
 # System
 seed: ${global_seed}
-device_eval_batch_size: 16
-# device_train_microbatch_size: 16
-device_train_microbatch_size: auto
-precision: amp_bf16
-
-# FSDP
-fsdp_config:
-  sharding_strategy: FULL_SHARD
-  mixed_precision: PURE
-  activation_checkpointing: false
-  activation_checkpointing_reentrant: false
-  activation_cpu_offload: false
-  limit_all_gathers: true
-  verbose: false
+device_eval_batch_size: 8
+device_train_microbatch_size: 8
+# device_train_microbatch_size: auto
+precision: fp32
 
 # Logging
 progress_bar: false
