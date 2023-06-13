@@ -5,11 +5,11 @@ import ast
 import importlib
 import json
 import os
+import pprint
 import tempfile
 from argparse import ArgumentParser, Namespace
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Union
-import pprint
 
 import sentencepiece as spm
 import torch
@@ -20,6 +20,7 @@ from transformers import (AutoConfig, AutoTokenizer, PretrainedConfig,
                           PreTrainedTokenizer)
 
 from llmfoundry import MPTConfig, MPTForCausalLM
+
 
 # TODO: maybe move this functionality to Composer
 def get_hf_config_from_composer_state_dict(
@@ -36,13 +37,6 @@ def get_hf_config_from_composer_state_dict(
     pprint.pprint(hf_config_dict, indent=4)
     print('XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX')
 
-    def rhs(k):
-        return hf_config_dict.get(k,None)
-
-    def safe_del(k):
-        if k in hf_config_dict:
-            del hf_config_dict[k]
-
     # backwards compatibility changes
     if hf_config_dict['model_type'] == 'mosaic_gpt':
         hf_config_dict['model_type'] = 'mpt'
@@ -50,59 +44,62 @@ def get_hf_config_from_composer_state_dict(
     if 'attn_config' not in hf_config_dict:
         attn_config = {}
         attn_config['attn_type'] = 'multihead_attention'
-        attn_config['attn_pdrop'] = rhs('attn_pdrop')
-        safe_del('attn_pdrop')
-        attn_config['attn_impl'] = rhs('attn_impl') or 'triton'
-        safe_del('attn_impl')
-        attn_config['qk_ln'] = rhs('attn_qk_ln')
-        safe_del('attn_qk_ln')
-        attn_config['clip_qkv'] = rhs('attn_clip_qkv')
-        safe_del('attn_clip_qkv')
-        attn_config['softmax_scale'] = rhs('softmax_scale')
-        safe_del('softmax_scale')
-        attn_config['prefix_lm'] = rhs('prefix_lm')
-        safe_del('prefix_lm')
-        attn_config['attn_uses_sequence_id'] = rhs('attn_uses_sequence_id')
-        safe_del('attn_uses_sequence_id')
-        attn_config['alibi'] = rhs('alibi')
-        safe_del('alibi')
-        attn_config['alibi_bias_max'] = rhs('alibi_bias_max')
-        safe_del('alibi_bias_max')
+        attn_config['attn_pdrop'] = hf_config_dict['attn_pdrop']
+        del hf_config_dict['attn_pdrop']
+        attn_config['attn_impl'] = hf_config_dict['attn_impl']
+        del hf_config_dict['attn_impl']
+        attn_config['qk_ln'] = hf_config_dict['attn_qk_ln']
+        del hf_config_dict['attn_qk_ln']
+        attn_config['clip_qkv'] = hf_config_dict['attn_clip_qkv']
+        del hf_config_dict['attn_clip_qkv']
+        attn_config['softmax_scale'] = hf_config_dict['softmax_scale']
+        del hf_config_dict['softmax_scale']
+        attn_config['prefix_lm'] = hf_config_dict['prefix_lm']
+        del hf_config_dict['prefix_lm']
+        attn_config['attn_uses_sequence_id'] = hf_config_dict[
+            'attn_uses_sequence_id']
+        del hf_config_dict['attn_uses_sequence_id']
+        attn_config['alibi'] = hf_config_dict['alibi']
+        del hf_config_dict['alibi']
+        attn_config['alibi_bias_max'] = hf_config_dict['alibi_bias_max']
+        del hf_config_dict['alibi_bias_max']
 
         hf_config_dict['attn_config'] = attn_config
 
     if 'init_config' not in hf_config_dict:
         init_config = {}
 
-        init_config['name'] = rhs('param_init_fn')
-        safe_del('param_init_fn')
-        init_config['fan_mode'] = rhs('fan_mode')
-        safe_del('fan_mode')
-        init_config['init_nonlinearity'] = rhs('init_nonlinearity')
-        safe_del('init_nonlinearity')
-        init_config['init_gain'] = rhs('init_gain')
-        safe_del('init_gain')
-        init_config['init_std'] = rhs('init_std')
-        safe_del('init_std')
-        init_config['init_div_is_residual'] = rhs('init_div_is_residual')
-        safe_del('init_div_is_residual')
-        init_config['emb_init_std'] = rhs('emb_init_std')
-        safe_del('emb_init_std')
-        init_config['emb_init_uniform_lim'] = rhs('emb_init_uniform_lim')
-        safe_del('emb_init_uniform_lim')
+        init_config['name'] = hf_config_dict['param_init_fn']
+        del hf_config_dict['param_init_fn']
+        init_config['fan_mode'] = hf_config_dict['fan_mode']
+        del hf_config_dict['fan_mode']
+        init_config['init_nonlinearity'] = hf_config_dict['init_nonlinearity']
+        del hf_config_dict['init_nonlinearity']
+        init_config['init_gain'] = hf_config_dict['init_gain']
+        del hf_config_dict['init_gain']
+        init_config['init_std'] = hf_config_dict['init_std']
+        del hf_config_dict['init_std']
+        init_config['init_div_is_residual'] = hf_config_dict[
+            'init_div_is_residual']
+        del hf_config_dict['init_div_is_residual']
+        init_config['emb_init_std'] = hf_config_dict['emb_init_std']
+        del hf_config_dict['emb_init_std']
+        init_config['emb_init_uniform_lim'] = hf_config_dict[
+            'emb_init_uniform_lim']
+        del hf_config_dict['emb_init_uniform_lim']
 
         hf_config_dict['init_config'] = init_config
 
     if 'mlp_ratio' in hf_config_dict:
-        hf_config_dict['expansion_ratio'] = rhs('mlp_ratio')
-        safe_del('mlp_ratio')
+        hf_config_dict['expansion_ratio'] = hf_config_dict['mlp_ratio']
+        del hf_config_dict['mlp_ratio']
 
     if 'low_precision_layernorm' in hf_config_dict:
         if hf_config_dict['low_precision_layernorm']:
             hf_config_dict['norm_type'] = 'low_precision_layernorm'
         else:
             hf_config_dict['norm_type'] = 'layernorm'
-        safe_del('low_precision_layernorm')
+        del hf_config_dict['low_precision_layernorm']
 
     return AutoConfig.for_model(**hf_config_dict)
 
