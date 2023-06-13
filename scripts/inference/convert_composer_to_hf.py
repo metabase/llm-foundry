@@ -210,6 +210,10 @@ def write_huggingface_pretrained_from_composer_checkpoint(
     print('Loading checkpoint into CPU RAM...')
     composer_state_dict = safe_torch_load(local_checkpoint_save_location)
 
+    print('!' * 80)
+    pprint.pprint(composer_state_dict, indent=4)
+    print('!' * 80)
+
     # Build and save HF Config
     print('#' * 30)
     print('Saving HF Model Config...')
@@ -392,6 +396,9 @@ def main(args: Namespace) -> None:
 
     print(f'Loading model from {local_folder_path}')
     config = MPTConfig.from_pretrained(local_folder_path)
+
+
+
     # You have to edit the config this way, because attn_config is a nested dictionary
     config.attn_config['attn_impl'] = 'torch'
     loaded_hf_model = MPTForCausalLM.from_pretrained(local_folder_path,
