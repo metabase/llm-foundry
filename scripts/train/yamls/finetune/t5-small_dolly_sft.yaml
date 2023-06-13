@@ -10,6 +10,9 @@ model:
   name: hf_t5
   pretrained_model_name_or_path: ${model_name}
   pretrained: true
+  # MSB new stuff
+  attn_config:
+    attn_impl: triton
 
 # Tokenizer
 tokenizer:
