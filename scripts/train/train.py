@@ -21,6 +21,7 @@ from llmfoundry.utils.builders import (build_algorithm, build_callback,
                                        build_tokenizer)
 from llmfoundry.utils.config_utils import log_config, update_batch_size_info
 
+from transformers import EarlyStoppingCallback
 
 def validate_config(cfg):
     """Validates compatible model and dataloader selection."""
@@ -190,6 +191,8 @@ def main(cfg):
         build_callback(name, callback_cfg)
         for name, callback_cfg in (cfg.get('callbacks') or {}).items()
     ]
+
+    callbacks = callbacks.append(EarlyStoppingCallback(early_stopping_patience=3))
 
     # Algorithms
     algorithms = [
