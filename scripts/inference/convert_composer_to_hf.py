@@ -52,7 +52,7 @@ def get_hf_config_from_composer_state_dict(
         attn_config['attn_type'] = 'multihead_attention'
         attn_config['attn_pdrop'] = rhs('attn_pdrop')
         safe_del('attn_pdrop')
-        attn_config['attn_impl'] = rhs('attn_impl')
+        attn_config['attn_impl'] = rhs('attn_impl') or 'triton'
         safe_del('attn_impl')
         attn_config['qk_ln'] = rhs('attn_qk_ln')
         safe_del('attn_qk_ln')
