@@ -29,7 +29,7 @@ train_loader:
       data_dir: distilgpt2_finetune_example
     # Note: `scripts/train` will be the working directory when resolving
     # the preprocessing_fn import path
-    preprocessing_fn: finetune_example.preprocessing:mbql
+    preprocessing_fn: finetune_repro.preprocessing:mbql
     split: train
     ############
     shuffle: true
