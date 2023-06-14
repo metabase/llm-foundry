@@ -91,7 +91,7 @@ def get_hf_config_from_composer_state_dict(
         hf_config_dict['init_config'] = init_config
 
     if 'mlp_ratio' in hf_config_dict:
-        hf_config_dict['expansion_ratio'] = hf_config_dict.get('mlp_ratio']
+        hf_config_dict['expansion_ratio'] = hf_config_dict.get('mlp_ratio')
         del hf_config_dict['mlp_ratio']
 
     if 'low_precision_layernorm' in hf_config_dict:
