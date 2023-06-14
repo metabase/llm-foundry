@@ -45,24 +45,32 @@ def get_hf_config_from_composer_state_dict(
         attn_config = {}
         attn_config['attn_type'] = 'multihead_attention'
         attn_config['attn_pdrop'] = hf_config_dict.get('attn_pdrop')
-        del hf_config_dict['attn_pdrop']
+        if 'attn_pdrop' in hf_config_dict:
+            del hf_config_dict['attn_pdrop']
         attn_config['attn_impl'] = hf_config_dict.get('attn_impl')
-        del hf_config_dict['attn_impl']
+        if 'attn_impl' in hf_config_dict:
+            del hf_config_dict['attn_impl']
         attn_config['qk_ln'] = hf_config_dict.get('attn_qk_ln')
-        del hf_config_dict['attn_qk_ln']
+        if 'attn_qk_ln' in hf_config_dict:
+            del hf_config_dict['attn_qk_ln']
         attn_config['clip_qkv'] = hf_config_dict.get('attn_clip_qkv')
-        del hf_config_dict['attn_clip_qkv']
+        if 'attn_clip_qkv' in hf_config_dict:
+            del hf_config_dict['attn_clip_qkv']
         attn_config['softmax_scale'] = hf_config_dict.get('softmax_scale')
-        del hf_config_dict['softmax_scale']
+        if 'softmax_scale' in hf_config_dict:
+            del hf_config_dict['softmax_scale']
         attn_config['prefix_lm'] = hf_config_dict.get('prefix_lm')
-        del hf_config_dict['prefix_lm']
-        attn_config['attn_uses_sequence_id'] = hf_config_dict.get(
-            'attn_uses_sequence_id')
-        del hf_config_dict['attn_uses_sequence_id']
+        if 'prefix_lm' in hf_config_dict:
+            del hf_config_dict['prefix_lm']
+        attn_config['attn_uses_sequence_id'] = hf_config_dict.get('attn_uses_sequence_id')
+        if 'attn_uses_sequence_id' in hf_config_dict:
+            del hf_config_dict['attn_uses_sequence_id']
         attn_config['alibi'] = hf_config_dict.get('alibi')
-        del hf_config_dict['alibi']
+        if 'alibi' in hf_config_dict:
+            del hf_config_dict['alibi']
         attn_config['alibi_bias_max'] = hf_config_dict.get('alibi_bias_max')
-        del hf_config_dict['alibi_bias_max']
+        if 'alibi_bias_max' in hf_config_dict:
+            del hf_config_dict['alibi_bias_max']
 
         hf_config_dict['attn_config'] = attn_config
 
