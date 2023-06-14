@@ -7,7 +7,7 @@ run_name: # If left blank, will be read from env var $RUN_NAME
 
 # Model
 model:
-  name: hf_t5
+  name: ${model_name}
   pretrained_model_name_or_path: ${model_name}
   pretrained: true
   # MSB new stuff
