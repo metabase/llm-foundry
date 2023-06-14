@@ -210,10 +210,6 @@ def write_huggingface_pretrained_from_composer_checkpoint(
     print('Loading checkpoint into CPU RAM...')
     composer_state_dict = safe_torch_load(local_checkpoint_save_location)
 
-    print('!' * 80)
-    pprint.pprint(composer_state_dict, indent=4)
-    print('!' * 80)
-
     # Build and save HF Config
     print('#' * 30)
     print('Saving HF Model Config...')
