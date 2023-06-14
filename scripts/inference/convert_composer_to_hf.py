@@ -78,23 +78,31 @@ def get_hf_config_from_composer_state_dict(
         init_config = {}
 
         init_config['name'] = hf_config_dict.get('param_init_fn')
-        del hf_config_dict['param_init_fn']
+        if 'param_init_fn' in hf_config_dict:
+            del hf_config_dict['param_init_fn']
         init_config['fan_mode'] = hf_config_dict.get('fan_mode')
-        del hf_config_dict['fan_mode']
+        if 'fan_mode' in hf_config_dict:
+            del hf_config_dict['fan_mode']
         init_config['init_nonlinearity'] = hf_config_dict.get('init_nonlinearity')
-        del hf_config_dict['init_nonlinearity']
+        if 'init_nonlinearity' in hf_config_dict:
+            del hf_config_dict['init_nonlinearity']
         init_config['init_gain'] = hf_config_dict.get('init_gain')
-        del hf_config_dict['init_gain']
+        if 'init_gain' in hf_config_dict:
+            del hf_config_dict['init_gain']
         init_config['init_std'] = hf_config_dict.get('init_std')
-        del hf_config_dict['init_std']
+        if 'init_std' in hf_config_dict:
+            del hf_config_dict['init_std']
         init_config['init_div_is_residual'] = hf_config_dict.get(
             'init_div_is_residual')
-        del hf_config_dict['init_div_is_residual']
+        if 'init_div_is_residual' in hf_config_dict:
+            del hf_config_dict['init_div_is_residual']
         init_config['emb_init_std'] = hf_config_dict.get('emb_init_std')
-        del hf_config_dict['emb_init_std']
+        if 'emb_init_std' in hf_config_dict:
+            del hf_config_dict['emb_init_std']
         init_config['emb_init_uniform_lim'] = hf_config_dict.get(
             'emb_init_uniform_lim')
-        del hf_config_dict['emb_init_uniform_lim']
+        if 'emb_init_uniform_lim' in hf_config_dict:
+            del hf_config_dict['emb_init_uniform_lim']
 
         hf_config_dict['init_config'] = init_config
 
