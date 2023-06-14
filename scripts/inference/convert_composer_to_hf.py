@@ -240,6 +240,9 @@ def write_huggingface_pretrained_from_composer_checkpoint(
     hf_tokenizer = get_hf_tokenizer_from_composer_state_dict(
         composer_state_dict)
     if hf_tokenizer is not None:
+        print('!' * 80)
+        print(output_path)
+        print('!' * 80)
         hf_tokenizer.save_pretrained(output_path)
         print(hf_tokenizer)
     else:
