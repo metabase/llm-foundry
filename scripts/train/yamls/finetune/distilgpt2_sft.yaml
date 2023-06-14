@@ -11,8 +11,8 @@ model:
   pretrained_model_name_or_path: ${model_name}
   pretrained: true
   # MSB new stuff
-  attn_config:
-    attn_impl: triton
+#  attn_config:
+#    attn_impl: triton
 
 # Tokenizer
 tokenizer:
