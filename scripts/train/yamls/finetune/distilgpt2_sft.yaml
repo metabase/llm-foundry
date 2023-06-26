@@ -22,7 +22,7 @@ tokenizer:
 train_loader:
   name: finetuning
   dataset:
-    hf_name: HuggingFaceH4/databricks_dolly_15k
+    hf_name: distilgpt2
     split: train
     max_seq_len: ${max_seq_len}
     allow_pad_trimming: false
