@@ -26,10 +26,10 @@ train_loader:
       # Note: absolute paths for data_dir are more reliable;
       # relative paths will be interpreted relative to whatever your
       # working directory is when you run `train.py`
-      data_dir: finetune_repro
+      data_dir: finetune_repro2
     # Note: `scripts/train` will be the working directory when resolving
     # the preprocessing_fn import path
-    preprocessing_fn: finetune_repro.preprocessing:mbql
+    preprocessing_fn: finetune_repro2.preprocessing:mbql
     split: train
     ############
     shuffle: true
