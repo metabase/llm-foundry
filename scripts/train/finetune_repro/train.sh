@@ -1,1 +1,0 @@
-RUN_NAME=firstrun composer train.py finetune_repro/ft.yaml save_folder=$RUN_NAME
