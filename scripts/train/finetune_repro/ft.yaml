@@ -9,9 +9,6 @@ model:
   name: hf_causal_lm
   pretrained_model_name_or_path: distilgpt2
   pretrained: true  # false: only use the architecture; true: initialize with pretrained weights
-  # See if this buys us anything
-  attn_config:
-    attn_impl: triton
 
 # Tokenizer
 tokenizer:
@@ -61,7 +58,7 @@ algorithms:
     clipping_type: norm
     clipping_threshold: 1.0
 
-max_duration: 2ep
+max_duration: 1ep
 eval_interval: 1
 eval_first: false
 eval_subset_num_batches: -1
@@ -72,9 +69,7 @@ seed: ${global_seed}
 device_eval_batch_size: 8
 # device_train_microbatch_size: 8
 device_train_microbatch_size: auto
-# precision: fp32
-# Does this give us any speedup?
-precision: amp_bf16
+precision: fp32
 
 # Logging
 progress_bar: false
