@@ -45,7 +45,7 @@ scheduler:
   alpha_f: 0.1
 
 optimizer:
-  name: adafactor
+  name: decoupled_adamw
   lr: 6.0e-4
   betas:
   - 0.9
