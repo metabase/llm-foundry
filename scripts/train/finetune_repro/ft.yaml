@@ -7,7 +7,7 @@ run_name: # If left blank, will be read from env var $RUN_NAME
 # Model
 model:
   name: hf_causal_lm
-  pretrained_model_name_or_path: distilgpt2
+  pretrained_model_name_or_path: bigscience/bloom-560m
   pretrained: true  # false: only use the architecture; true: initialize with pretrained weights
 
 # Tokenizer
@@ -45,7 +45,7 @@ scheduler:
   alpha_f: 0.1
 
 optimizer:
-  name: decoupled_adamw
+  name: adafactor
   lr: 6.0e-4
   betas:
   - 0.9
