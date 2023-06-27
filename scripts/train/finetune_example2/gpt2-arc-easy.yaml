@@ -58,7 +58,7 @@ algorithms:
     clipping_type: norm
     clipping_threshold: 1.0
 
-max_duration: 1ep
+max_duration: 10ep
 eval_interval: 1
 eval_first: false
 eval_subset_num_batches: -1
@@ -82,6 +82,8 @@ callbacks:
   lr_monitor: {}
   memory_monitor: {}
   runtime_estimator: {}
+#  early_stopping:
+#    early_stopping_patience: 3
 
 # loggers:
 #   wandb: {}
