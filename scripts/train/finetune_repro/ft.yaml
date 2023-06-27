@@ -7,7 +7,7 @@ run_name: # If left blank, will be read from env var $RUN_NAME
 # Model
 model:
   name: hf_causal_lm
-  pretrained_model_name_or_path: bigscience/bloom-560m
+  pretrained_model_name_or_path: gpt2-xl
   pretrained: true  # false: only use the architecture; true: initialize with pretrained weights
 
 # Tokenizer
