@@ -70,6 +70,7 @@ device_eval_batch_size: 8
 # device_train_microbatch_size: 8
 device_train_microbatch_size: auto
 precision: fp32
+gradient_checkpointing: true
 
 # Logging
 progress_bar: false
